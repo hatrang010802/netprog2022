@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+\pagenumbering{Roman}
+
+
+\begin{titlepage}
+    \title{\textbf{\LARGE{Practical Work 2}}}
+    \author{\LARGE{Nguyen Thi Ha Trang- BI11-267 }}
+    \date{\Large{\today}}
+\end{titlepage}
+\newpage
+
+\maketitle
+
+\section{Problem}
+\subsection{Get domain name}
+\begin{itemize}
+    \item Domain name from program's arguments
+    \item Domain name from user input
+\end{itemize}
+
+\subsection{Resolve domain name}
+\begin{itemize}
+    \item Hostname is not found
+    \item Hostname is resolved successfully
+\end{itemize}
+
+\section{Get domain name}
+Firstly, we declare a char array of length 100 to store the domain name.
+\begin{verbatim}
+    char name[100];
+\end{verbatim}
+\subsection{Domain name from program's arguments}
+"argc" is the argument count. If "argc" is greater than one, there is at least one argument. We copy the second argument of "argv" (the first argument is the program name) into the "domain" char array
+\begin{verbatim}
+    if (argc > 1){
+        strcpy(name, argv[1]);
+    }\end{verbatim}
+
+\subsection{Domain name from user input}
+If there's no argument, we ask user to enter input to store in the "name" char array
+\begin{verbatim}
+    else{
+        printf("Enter a name: ");
+        scanf("%s", name);
+    }
+\end{verbatim}
+\section{Resolve domain name}
+Utilizing the function "gethostbyname()", we can resolve the "domain" and obtain either a pointer to a "struct hostent" or a null pointer.
+\subsection{Hostname is not found}
+If we obtain a null pointer, the domain name cannot be resolved. Then we inform the user and exit the program
+\begin{verbatim}
+    if (host_info == NULL){
+        printf("Cannot find address for hostname: %s\n", name);
+        return 0;
+    }
+\end{verbatim}
+\subsection{Hostname is resolved successfully}
+If we obtain a pointer to a "struct hostent", we loop through its address list, convert each address to a char array using the function "inet ntoa" and print the result 
+\begin{verbatim}
+    printf("Hostname: %s\n", name); 
+    int i=0;
+    while(1){
+        if (host_info->h_addr_list[i]==NULL){
+            break;
+        }
+        else{
+            address = (struct in_addr *)(host_info->h_addr_list[i]);
+            printf("%s has address %s\n",name, inet_ntoa(*address)); 
+        }
+        i++;
+    }
+    return 0;
+\end{verbatim}
+\section{Demonstration}
+\subsection{Run the program on my laptop}
+\begin{verbatim}
+> ./a.out stackoverflow.com
+Hostname: stackoverflow.com
+stackoverflow.com has address 151.101.1.69
+stackoverflow.com has address 151.101.129.69
+stackoverflow.com has address 151.101.193.69
+stackoverflow.com has address 151.101.65.69
+> ./a.out hello
+Cannot find address for hostname: hello
+
+\end{verbatim}
+\subsection{Run the program on a VPS in Singapore}
+\begin{verbatim}
+> ./a.out stackoverflow.com
+Hostname: stackoverflow.com
+stackoverflow.com has address 151.101.65.69
+stackoverflow.com has address 151.101.129.69
+stackoverflow.com has address 151.101.193.69
+stackoverflow.com has address 151.101.1.69
+> ./a.out hello
+Cannot find address for hostname: hello
+\end{verbatim}
+
+The resolved IP address of stackoverflow.com on my local machine "151.101.1.69" is different from the one from my VPS "151.101.65.69". The reason is that one domain name can map to multiple IP addresses, and the geological distance can cause the mapping to behave differently in different region.
+
+\end{document}
