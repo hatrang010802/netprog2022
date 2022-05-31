@@ -41,6 +41,6 @@ int main(){
         printf("Error accepting connection\n"); 
         return 1;
     }
-    printf("Client is connected.");
+    printf("Client is connected.\n");
     return 0;
 }
