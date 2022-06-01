@@ -43,18 +43,20 @@ int main(){
     }
     printf("Client is connected.\n");
 
-    char message[255];
-    char response[255];
+    char message[1000];
+    char response[1000];
+
     while(1){
         recv(clientfd, message , sizeof(message),0); //from client
         printf("%s\n", message); //to STDOUT
-        printf("Enter a message: ");
-        scanf("%s", response);  //from STDIN
-        send(clientfd, response , sizeof(response) , 0); //to client
+        printf("Enter a message:");
+        fgets(response, sizeof(response),stdin);  //from STDIN
+        send(clientfd, response , strlen(response) + 1, 0); //to client
         if (strncmp("exit", response , 4) == 0) {
             printf("Server Exit...\n");
             break;
         }
     }
+
     return 0;
 }

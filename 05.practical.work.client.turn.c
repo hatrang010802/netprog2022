@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
     else{
         printf("Enter a name: ");
         scanf("%s", name);
+        fflush(stdin);
     }
     h = gethostbyname(name);
 
@@ -53,18 +54,20 @@ int main(int argc, char *argv[]){
     }
     printf("Successfully connected to Server.\n");
 
-    char message[255];
-    char response[255];
+    char message[1000];
+    char response[1000];
+
     while(1){
         printf("Enter a message: ");
-        scanf("%s", message); // from STDIN
-        send(sockfd , message , sizeof(message), 0); //to server
+        fgets(message,sizeof(message),stdin); // from STDIN
+        send(sockfd , message , strlen(message) + 1, 0); //to server
         recv(sockfd, response , sizeof(response), 0); //from server
-        printf("%s\n", response); // to STDOUT
+        printf("%s", response); // to STDOUT
         if ((strncmp(response , "exit", 4)) == 0) {
             printf("Client Exit...\n");
             break;
         }
     }
+
     return 0;
 }
