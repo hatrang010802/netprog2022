@@ -48,7 +48,7 @@ int main(){
 
     while(1){
         recv(clientfd, message , sizeof(message),0); //from client
-        printf("%s\n", message); //to STDOUT
+        printf("%s", message); //to STDOUT
         printf("Enter a message:");
         fgets(response, sizeof(response),stdin);  //from STDIN
         send(clientfd, response , strlen(response) + 1, 0); //to client
