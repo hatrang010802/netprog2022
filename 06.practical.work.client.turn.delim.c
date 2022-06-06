@@ -62,17 +62,15 @@ int main(int argc, char *argv[]){
         printf("Enter a message: ");
         fgets(message,sizeof(message),stdin); // from STDIN
         send(sockfd , message , strlen(message) + 1, 0); //to server   
+        // h e l l o \n \0
 
         recv(sockfd, response, sizeof(response), 0);
-        while(1){
-            int i=0;
-            while (response[i] != '\n'){
-                str[i]= response[i];
-                i++;
-            }
-            printf("%s\n", str); // to STDOUT
-            break;
-        }
+        int i=0;
+        do {
+            str[i]= response[i];
+        } while (response[i++] != '\0');
+        printf("%s\n", str); // to STDOUT
+        //fflush(stdin);
         
         if ((strncmp(response , "exit", 4)) == 0) {
             printf("Client Exit...\n");

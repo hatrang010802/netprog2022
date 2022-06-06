@@ -49,17 +49,16 @@ int main(){
     char str[1000];
 
     while(1){
-        
+
         recv(clientfd, message , sizeof(message),0); //from client
-        while(1){
-            int i=0;
-            while(message[i] != '\n'){
-                str[i]= message[i]; 
-                i++;  
-            } 
-            printf("%s\n", str); //to STDOUT 
-            break;
-        }
+        int i=0;
+        // h e l l o \n \0
+        do {
+            str[i]= message[i]; 
+        } while(str[i++] != '\0');
+
+        printf("%s\n", str); //to STDOUT 
+        //fflush(stdin);
 
         printf("Enter a message:");
         fgets(response, sizeof(response),stdin);  //from STDIN
