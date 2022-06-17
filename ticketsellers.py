@@ -26,5 +26,5 @@ if __name__ == "__main__":
     #     exit(1)
     port = int(sys.argv[1])
     server = socketserver. ForkingTCPServer( ("", port), MyTCPSocketHandler)
-    #server = socketserver. ThreadingTCPServer( ("", port), MyTCPSocketHandler)
+    # server = socketserver. ThreadingTCPServer( ("", port), MyTCPSocketHandler)
     server.serve_forever()
