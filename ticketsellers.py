@@ -15,7 +15,7 @@ class MyTCPSocketHandler(socketserver.BaseRequestHandler):
             print(f"{self.client_address[0]} waiting for {waittime} seconds")
             time.sleep(waittime)
 
-            ticknum = "You bought ticket number {ticketcount}".encode('utf8')
+            ticknum = f"You bought ticket number {ticketcount}".encode('utf8')
             self.request.sendall(ticknum)
             ticketcount = ticketcount + 1
             
